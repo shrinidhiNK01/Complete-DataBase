@@ -1,0 +1,73 @@
+MongoDB = NoSql database 
+Store data in Flexible json formate 
+Handle large amount of Unstructured data
+Stores data in Collections and Documents
+A document is a set of key value pair 
+Collection is group of Documents
+Collection:- Table
+Document:- Json Record within a Collection(Row)
+Field:- Column 
+
+NoSQL:-
+==================
+1)scale Horizontally  by adding More servers  , distributing the loads across Multiple Nodes
+2)Schema Less Design , easy storage , rapid changing data without needing to alter the schema 
+3)High speed read and write operations
+4)Best for realtime data Processing
+5)Good for joins, ACID Transactions
+6)Effieciently Handle Unstructured data 
+
+SQL:- 
+====================
+1)scale Vertically by adding more resources to Single Server , which has limits and can be costly 
+Horizontal scaling(Shreading) is more complex and less effiecient
+2)It is Predefined schema 
+3)Good For structured data 
+
+
+installation:-
+=====================
+1)Install MongoDB Community Server -> Download
+2)Install MongoDB Shell -> download 
+
+cmd ==========> mongosh =============>commonds
+commonds:-
+===============
+1)show dbs 
+2)use movie
+3)db.actors.insertOne({name:"Shrinidhi",Actor:"Sudeep",Actress:"Shruthi"})
+4)db.actors
+5)db.actors.find()
+6)show collections
+7)db.createCollection("myCollection")
+8)db.collection_name.drop()   //drop the collections
+9)db.dropDatabase()   //drop the database
+
+Connection Types:-
+========================
+1)compass:- new Connection ->paste the link
+2)shell:- go to cmd and paste the link , not in mongosh
+
+NOTE:-
+===========
+1)collection:- tables
+
+CRUD operations:-  db.collection_name.crud_opearation()
+===========================================================
+1)Create:- insertOne(), insertMany()
+2)Read:- find(),findOne(),find().pretty(),find({},{model:1,maker:1}),find({},{model:1,maker:1,_id:0}), put anything inside find, it will give the related collection,find({},{model:1,fuel_type:"diesel",_id:0}) , just modify
+
+if u did objects:- db.cars.find({"engine.type":"Turbocharged"})
+
+3)Update:- updateOne(),updateMany()
+db.cars.updateOne(
+    {model:"Nexon"},
+    {$set:{color:"Red"}}
+)
+db.cars.updateOne(
+    {model:"Nexon"},
+    {$push:{features:"Heated Seats"}}
+)
+
+
+4)Delete:- deleteOne(),deleteMany()
