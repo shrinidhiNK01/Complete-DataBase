@@ -1,0 +1,3 @@
+sql = structured query laguage 
+DBMS which uses SQL to talk with
+database. 

@@ -1,3 +1,6 @@
+Database:- An organised collection of data ,controlled by softwaress
+
+
 MongoDB = NoSql database 
 Store data in Flexible json formate 
 Handle large amount of Unstructured data
@@ -7,6 +10,13 @@ Collection is group of Documents
 Collection:- Table
 Document:- Json Record within a Collection(Row)
 Field:- Column 
+
+Reason by you should Nosql Database:
+. Scalability and Flexibility
+. Variety of Data Types
+. Real-time Data Ingestion
+. Distributed Computing
+. Schema-less Design
 
 NoSQL:-
 ==================
@@ -35,7 +45,7 @@ commonds:-
 ===============
 1)show dbs 
 2)use movie
-3)db.actors.insertOne({name:"Shrinidhi",Actor:"Sudeep",Actress:"Shruthi"})
+3)db.actors.insertOne({name:"Shrinidhi",Actor:"Sudeep",Actress:"Shruthi"})    #actors=table
 4)db.actors
 5)db.actors.find()
 6)show collections
@@ -65,9 +75,222 @@ db.cars.updateOne(
     {$set:{color:"Red"}}
 )
 db.cars.updateOne(
+    {model:"Nexon"},    
+    {$unset:{airbags:2}}
+)
+
+//Push and pull used for the arrays
+//if we did not give the array name, it will create a new array
+
+db.cars.updateOne(
+    {model:"Nexon"},  //filter to find the specfic document
+    {$push:{features:"Heated Seats"}}  //update
+)
+db.cars.updateOne(
+    {model:"Nexon"},  //filter to find the specfic document
+    {$push:{features:{$each:["Sunroof","Heated Seats","Premium Audio"]}}}  //update many items 
+)
+db.cars.updateOne(
+    {model:"Nexon"},  //filter to find the specfic document
+    {$pull:{features:{$each:["Sunroof","Heated Seats","Premium Audio"]}}}  //remove many items 
+)
+
+db.cars.updateMany(
+    {maker:"Tata"},
+    {$set:{color:"Red"}}
+)
+
+db.cars.updateMany(
+    {maker:"Tata"},
+    {$set:{price:{$multiply:[1.2,price]}}}
+)
+
+Update all
+==================
+db.cars.updateMany({},{$set:{color:"Red"}})
+
+Upsert:- combination of insert and update :- if no document ,atches the query criteria, mongodb will insert
+a new document into the collection 
+===========================================
+db.cars.updateOne(
     {model:"Nexon"},
-    {$push:{features:"Heated Seats"}}
+    {$set:{color:"Red"}},
+    {upsert:true}
 )
 
 
 4)Delete:- deleteOne(),deleteMany()
+
+eg:-db.collection_name.deleteOne({model:"Nexon"})
+eg:-db.collection_name.deleteMany({maker:"Tata"})
+
+delete all :- db.collection_name.deleteMany({})
+
+
+MongoDB DataTypes:-
+=============================
+*> It stores in BSON(Binary JSON formate) =JSON + Extra DataTypes
+1)String == name: "John Doe"
+2)Number == age: 30
+3)Boolean == isActive: true
+4)Null == middleName: null,
+5)Array == tags: ["mongodb", "database", "NoSQL"]
+6)Object == address: {street: "123 Main St", city: "New York", state: "NY", zip: 10001}
+7)Object Id  ==  _id: ObjectId("507f1f77bcf86cd799439011")
+8)Date
+9)Integer
+10)Long
+11)Binary
+12)Timestamp == ts: Timestamp(1638306013, 1)
+13)Decimal
+14)Double  ==  price: 19.99
+15)Date  ==  createdAt: ISODate("2023-08-21T14:23:00Z")
+16)Decimal128 == salary: Decimal128("12345.67")
+
+
+Operators:- 
+========================
+$lt   ==  <
+$lte  ==  <=
+$gt   ==  >
+$gte  ==  >=
+$eq   ==  =
+$ne   ==  !=
+$in   ==  in 
+$nin  ==  not in 
+$and  ==  and 
+$or   ==  or 
+$not  ==  not 
+$nor  ==  nor
+
+1)Find the cars with engine more than 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$gt:1400}})
+
+2)Find the cars with engine less than 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$lt:1400}})
+
+3)Find the cars with engine equal to 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$eq:1400}})
+
+4)Find the cars with engine not equal to 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$ne:1400}})
+
+5)Find the cars with engine less than or equal to 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$lte:1400}})
+
+6)Find the cars with engine more than or equal to 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$gte:1400}})
+
+7)Find the cars with engine in the array [1400,1500,1600]
+==========================================
+db.cars.find({"engine.displacement":{$in:[1400,1500,1600]}})
+
+8)Find the cars with engine not in the array [1400,1500,1600]
+==========================================
+db.cars.find({"engine.displacement":{$nin:[1400,1500,1600]}})
+
+9)Find the cars with engine less than 1400cc or more than 1600cc
+==========================================
+db.cars.find({$or:[{"engine.displacement":{$lt:1400}},{"engine.displacement":{$gt:1600}}]})
+
+10)Find the cars with engine less than 1400cc and more than 1600cc
+==========================================
+db.cars.find({$and:[{"engine.displacement":{$lt:1400}},{"engine.displacement":{$gt:1600}}]})
+
+11)Find the cars with engine having 1498 and 2179cc
+==========================================
+db.cars.find({"engine.displacement":{$in:[1498,2179]}})
+db.cars.find({"engine.displacement":{$nin:[1498,2179]}})
+
+12)Find the cars with engine having 1498 or 2179cc
+==========================================
+db.cars.find({"engine.displacement":{$or:[1498,2179]}})
+
+Logical Operators
+========================
+$not
+$nor
+$and
+$or
+
+1)Find the cars with engine not more than 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$not:{$gt:1400}}})
+
+2)Find the cars with engine not less than 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$not:{$lt:1400}}})
+
+3)Find the cars with engine not equal to 1400cc
+==========================================
+db.cars.find({"engine.displacement":{$not:{$eq:1400}}})
+
+4)Find the cars with engine not having 1498 or 2179cc
+==========================================
+db.cars.find({"engine.displacement":{$not:{$or:[1498,2179]}}})
+
+5)Find the cars with engine not having 1498 and 2179cc
+==========================================
+db.cars.find({"engine.displacement":{$not:{$and:[1498,2179]}}})
+
+Syntax:-
+=========
+db.collection.find({
+    $and:[
+        {condition1},
+        {condition2}
+    ]
+})
+
+eg:-db.cars.find({
+    $and:[
+        {"engine.displacement":{$gt:1400}},
+        {"engine.displacement":{$lt:1600}}
+    ]
+})
+eg:-db.cars.find({
+    $or:[
+        {"fuel_type":"diesel"},
+        {"maker":"Tata"}
+    ]
+})
+
+
+db.cars.find({
+    $nor:[
+        {"fuel_type":"diesel"},
+        {"maker":"Tata"}
+    ]
+})
+
+Projection :-
+=============
+
+db.cars.find({},{_id:0,maker:1,model:1})
+
+Elementary Operators:=
+========================
+$set:=ADD element or UPDATE element
+$unset:=REMOVE element
+$exists:=Check if element exists
+$type :=Check element type
+
+db.cars.find({maker:{$exists:true}})
+db.cars.find({maker:{$exists:false}})
+db.cars.find({maker:{$type:"string"}})
+db.cars.find({maker:{$type:"null"}})
+============================
+db.cars.updateOne({"engine.displacement":1498},{$set:{"engine.displacement":1500}})
+db.cars.updateOne({"engine.displacement":1498},{$set:{"engine.displacement":1500}})
+
+
+$unset:=REMOVE element
+============================
+db.cars.updateOne({"engine.displacement":1498},{$unset:{"engine.displacement":1500}})
+db.cars.updateOne({"engine.displacement":1498},{$unset:{"engine.displacement":1500}})
