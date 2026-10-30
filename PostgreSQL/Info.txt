@@ -1,0 +1,12 @@
+Database = An organised collection of data , A method to manipulate and access the data 
+App ===> DBMS ===> Database 
+        -------------------------
+        Postgresql, Mysql, Oracle
+
+Case Insensitive 
+
+RDMS => Relational database management systems , that stores data in structured tables(using rows and coloumns) and uses SQL for managing and querying data  
+
+1)select datname from pg_database;
+2)create database name;
+3) 
